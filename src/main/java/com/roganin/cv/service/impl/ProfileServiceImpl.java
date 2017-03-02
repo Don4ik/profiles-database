@@ -5,19 +5,17 @@ import com.roganin.cv.model.Profile;
 import com.roganin.cv.model.Skills;
 import com.roganin.cv.repository.CustomProfileRepository;
 import com.roganin.cv.service.ProfileService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProfileServiceImpl implements ProfileService {
 
     private final CustomProfileRepository customProfileRepository;
-
-    private static final Logger log = LoggerFactory.getLogger(ProfileServiceImpl.class);
 
     @Autowired
     public ProfileServiceImpl(CustomProfileRepository customProfileRepository) {

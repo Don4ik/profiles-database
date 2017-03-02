@@ -1,6 +1,5 @@
 package com.roganin.cv.model;
 
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 

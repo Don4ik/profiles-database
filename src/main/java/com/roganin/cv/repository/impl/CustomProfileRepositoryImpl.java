@@ -1,21 +1,21 @@
-package com.roganin.cv.repository;
+package com.roganin.cv.repository.impl;
 
-import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
 import com.roganin.cv.model.Profile;
 import com.roganin.cv.model.QProfile;
 import com.roganin.cv.model.Skills;
+import com.roganin.cv.repository.BasicProfileRepository;
+import com.roganin.cv.repository.CustomProfileRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Slf4j
 public class CustomProfileRepositoryImpl implements CustomProfileRepository {
-
-    @PersistenceContext
-    private EntityManager em;
 
     private final BasicProfileRepository basicProfileRepository;
 
@@ -36,13 +36,14 @@ public class CustomProfileRepositoryImpl implements CustomProfileRepository {
 
     @Override
     public List<Profile> getProfiles(List<Skills> skills) {
-        JPAQuery<Profile> query = new JPAQuery<>(em);
+        log.info("Creating DB query for skills {}", skills);
         QProfile profile = QProfile.profile;
-        query = query.from(profile);
-        for (Skills s : skills) {
-            query = query.where(profile.skills.contains(s));
-        }
+        BooleanBuilder where = new BooleanBuilder();
+        skills.forEach(s -> where.and(profile.skills.contains(s)));
+        Iterable<Profile> profiles = basicProfileRepository.findAll(where);
+        List<Profile> result = new ArrayList<>();
+        profiles.forEach(result::add);
 
-        return query.fetch();
+        return result;
     }
 }
