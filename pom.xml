@@ -25,7 +25,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
+            <groupId>org.springframework.boot</grodasupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
